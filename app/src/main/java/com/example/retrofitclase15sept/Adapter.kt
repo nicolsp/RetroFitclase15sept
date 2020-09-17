@@ -4,17 +4,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.retrofitclase15sept.Model.Terrain
 import kotlinx.android.synthetic.main.item_list_view.view.*
 
-class Adapter: RecyclerView.Adapter<Adapter.TaskViewHolder>() { //PASO 4 M IMPLEMENTAR RECYCLER
+class Adapter(var mpassMars: Mars): RecyclerView.Adapter<Adapter.TaskViewHolder>() { //PASO 4 M IMPLEMENTAR RECYCLER
 
     private var dataList = emptyList<Terrain>()  //PASO 1
 
     fun updateListMars(mDataList: List<Terrain>) { // PASO 2
 
         dataList = mDataList
-        //notifyDataSetChandeg()
+       // notifyDataSetChandeg()
     }
 
     //PASO 3
@@ -23,7 +24,7 @@ class Adapter: RecyclerView.Adapter<Adapter.TaskViewHolder>() { //PASO 4 M IMPLE
         val itemView = itemView.setOnClickListener(this)
 
         override fun onClick(p0: View?) {
-
+            mpassMars.passMars(dataList[adapterPosition])
         }
 
     }
@@ -33,11 +34,25 @@ class Adapter: RecyclerView.Adapter<Adapter.TaskViewHolder>() { //PASO 4 M IMPLE
         return TaskViewHolder(itemView)
     }
 //
-    override fun getItemCount(): Int { //PASO 4.3
-        TODO("Not yet implemented")
-    }
+    override fun getItemCount() = dataList.size  //PASO 4.3
+
+
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) { // PASO 4.2
-        TODO("Not yet implemented")
+        val mTerrain: Terrain = dataList[position]
+            Glide.with(holder.itemView.context).load(mTerrain.imgSrc).into(holder.ingTerrain)
+
+
+
+    }
+    interface Mars {
+        fun passMars(mTerrain: Terrain)
     }
 }
+
+
+
+
+
+
+
